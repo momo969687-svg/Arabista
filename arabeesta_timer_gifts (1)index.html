@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ARABEESTA 10 Seconds</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px;background:radial-gradient(circle at top,#4b2b17,#120b08 65%);font-family:Tahoma,Arial,sans-serif;color:#fff}.card{width:min(480px,100%);text-align:center;background:#1c110b;border:1px solid #9b7238;border-radius:28px;padding:28px 20px;box-shadow:0 20px 60px #0009}.logo{font-size:30px;font-weight:900;color:#e0bd75}.sub{color:#cdbb9e;margin:5px 0 22px}.target{font-size:16px;color:#d9c083}.timer{direction:ltr;font-size:72px;font-weight:900;color:#f0cc7a;margin:14px 0}.hint{color:#a9977e;font-size:14px;margin-bottom:16px}.btn{width:100%;padding:17px;border:0;border-radius:16px;font-size:20px;font-weight:900;cursor:pointer;margin:6px 0}.start{background:#dfba6e;color:#17100b}.stop{background:#b9382b;color:#fff}.again{background:#302016;color:#f4e5ca;border:1px solid #75552e}.result{min-height:34px;font-size:18px;font-weight:800;margin:12px 0}.gift{display:none;margin-top:18px;padding:20px 14px;border:1px dashed #c3974d;border-radius:18px;background:#24170f}.gift .secret{font-size:14px;color:#b9a286}.gift .name{font-size:25px;color:#f0ce82;font-weight:900;margin-top:7px}.rules{font-size:12px;color:#93816d;margin-top:16px;line-height:1.7}.best{margin-top:12px;color:#d6bd91;font-size:14px}
+</style></head>
+<body><main class="card">
+<div class="logo">ARABEESTA ☕</div><div class="sub">10 SECOND CHALLENGE</div>
+<div class="target">🎯 هدفك: <b>10.00 ثانية</b></div>
+<div id="timer" class="timer">0.00</div>
+<div class="hint">ابدأ العداد… ولما تحس إنك وصلت 10 ثواني دوس «وقّف!»</div>
+<button id="start" class="btn start" onclick="startGame()">▶ ابدأ</button>
+<button id="stop" class="btn stop" onclick="stopGame()" style="display:none">🛑 وقّف!</button>
+<button id="again" class="btn again" onclick="resetGame()" style="display:none">🔄 لاعب جديد</button>
+<div id="result" class="result"></div>
+<div id="gift" class="gift"><div class="secret">🎁 الهدية السرية بتاعتك:</div><div id="giftName" class="name"></div><div class="secret">صوّر الشاشة وورّيها للكاشير.</div></div>
+<div id="best" class="best"></div>
+<div class="rules">🏆 الفوز عند <b>10.00 ثانية بالظبط</b> فقط.<br>الهدية تظهر عشوائيًا بعد الفوز فقط.</div>
+</main>
+<script>
+let startTime=0, running=false, raf=0, best=null;
+const gifts=[
+'خصم 50٪ على مشروب واحد 🔥',
+'كوكيز Didos مجانًا 🍪',
+'خصم 25٪ على مشروبك ☕',
+'مشروب مجاني 🎁',
+'خصم 50٪ لك ولصاحبك 👥',
+'وافل بخصم 50٪ 🧇',
+'خصم 20 جنيه على الفاتورة 💸',
+'كوب قهوة مجاني ☕',
+'جايزة مفاجأة من الكاشير 🎉',
+'حاول تاني 😈'
+];
+function tick(){if(!running)return;let t=(performance.now()-startTime)/1000;document.getElementById('timer').textContent=t.toFixed(2);raf=requestAnimationFrame(tick)}
+function startGame(){running=true;startTime=performance.now();document.getElementById('result').textContent='';document.getElementById('gift').style.display='none';document.getElementById('start').style.display='none';document.getElementById('stop').style.display='block';document.getElementById('again').style.display='none';cancelAnimationFrame(raf);tick()}
+function stopGame(){if(!running)return;running=false;cancelAnimationFrame(raf);let t=(performance.now()-startTime)/1000;document.getElementById('timer').textContent=t.toFixed(2);document.getElementById('stop').style.display='none';document.getElementById('again').style.display='block';let win=t.toFixed(2)==="10.00";if(best===null||Math.abs(t-10)<Math.abs(best-10)){best=t;document.getElementById('best').textContent='⭐ أقرب محاولة في الجلسة: '+t.toFixed(2)+' ثانية'}if(win){document.getElementById('result').textContent='🏆 كسبت!';let g=gifts[Math.floor(Math.random()*9)];document.getElementById('giftName').textContent=g;document.getElementById('gift').style.display='block'}else{document.getElementById('result').textContent='❌ خسرت! كنت '+(t>10?'متأخر':'بدري')+'… جرّب تاني 😎'}}
+function resetGame(){document.getElementById('timer').textContent='0.00';document.getElementById('result').textContent='';document.getElementById('gift').style.display='none';document.getElementById('start').style.display='block';document.getElementById('stop').style.display='none';document.getElementById('again').style.display='none'}
+</script></body></html>
